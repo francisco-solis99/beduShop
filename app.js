@@ -17,6 +17,23 @@ const User = sequelize.define('User', {
 });
 
 
+
+// Define a model for product
+const Product = sequelize.define('Product', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  name: DataTypes.STRING,
+  price: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  quantity: DataTypes.INTEGER,
+  isAvailable: DataTypes.BOOLEAN,
+});
+
 // Define a model for Sale
 const Sale = sequelize.define('Sale', {
   id: {
@@ -27,24 +44,14 @@ const Sale = sequelize.define('Sale', {
   description: DataTypes.TEXT,
   orderDate: DataTypes.DATE,
   orderTotal: DataTypes.INTEGER,
+  ProductId: Product.id,
+  UserId: User.id
 });
 
-// Define a model for product
-const Product = sequelize.define('Product', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  name: DataTypes.STRING,
-  price: DataTypes.FLOAT,
-  quantity: DataTypes.INTEGER,
-  isAvailable: DataTypes.BOOLEAN,
-});
 
 // Associations
-User.hasMany(Sale); // one-to-many relationship with the foreign key defined in model of sale
-Product.hasMany(Sale); // one-to-many relationship with the foreign key defined in model of product
+User.hasMany(Sale, { foreignKey: { allowNull: false } }); // one-to-many relationship with the foreign key defined in model of sale
+Product.hasMany(Sale, { foreignKey: { allowNull: false } }); // one-to-many relationship with the foreign key defined in model of product
 
 // Venta.belongsTo(User);
 // Venta.belongsTo(Product);
@@ -181,3 +188,12 @@ Product.update(
 // );
 
 // console.log('Products deleted ' + response); //total of elements deleted
+
+
+
+
+
+
+
+
+// RETO
